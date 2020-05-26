@@ -9,6 +9,7 @@ IoC（Inversion of Control）容器,翻译为控制反转。IoC也称为依赖�
 2. 基于注解的配置方式（Spring2.5引入）
 3. 基于Java的配置方式（Spring3.0引入，目前最为流行的方式）
 
+
 ![IoC构造模块](https://imgkr.cn-bj.ufileos.com/862ac84c-5fb5-4206-8e91-1f6bbae7d4f9.jpg)
 
 ## 1.1 配置元数据
@@ -59,7 +60,7 @@ beans {
 
 ### 1.1.2 基于注释配置方式
 
-`@Required` 注释适用于bean属性setter方法，
+`@Required` 注释适用于bean属性setter方法，从`@Required` Spring Framework 5.1后弃用了该注释，以支持所需的设置使用构造函数注入设置使用构造函数注入，或自定义一个`InitializingBean.afterPropertiesSet（）`实现bean属性设置器方法。
 
 ```java
 public class SimpleMovieLister {
@@ -75,7 +76,8 @@ public class SimpleMovieLister {
 }
 ```
 
-`@Autowired`注释应用于构造函数
+`@Autowired`注释应用于构造函数，以指示容器使用哪个构造函数。
+
 ```java
 public class MovieRecommender {
 
@@ -132,7 +134,17 @@ context.refresh();
 
 ### 1.2.2 基于注释方式
 
-
+使用`CustomAutowireConfigurer`
+```xml
+<bean id="customAutowireConfigurer"
+        class="org.springframework.beans.factory.annotation.CustomAutowireConfigurer">
+    <property name="customQualifierTypes">
+        <set>
+            <value>example.CustomQualifier</value>
+        </set>
+    </property>
+</bean>
+```
 
 ### 1.2.3 基于Java配置方式
 使用`AnnotationConfigApplicationContext`,不仅接受`@Configuration`类作为输入，还接受普通`@Component`类和使用JSR-330元数据注释的类。
